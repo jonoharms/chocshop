@@ -12,7 +12,7 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     CHOCSHOP_MAIL_SUBJECT_PREFIX = '[CHOCSHOP]'
-    CHOCSHOP_MAIL_SENDER = 'CHOCSHOP Admin <chocshop@example.com>'
+    CHOCSHOP_MAIL_SENDER = 'chocshop admin <chocshop.fmb@gmail.com>'
     CHOCSHOP_ADMIN = os.environ.get('CHOCSHOP_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
