@@ -1,7 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired, Length
 
-class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
+class EditProfileForm(FlaskForm):
+    name = StringField('Real name', validators=[Length(0, 64)])
+    site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
+    building = StringField('Building', validators=[Length(0, 64)])
+    room = StringField('Room', validators=[Length(0, 64)])
     submit = SubmitField('Submit')

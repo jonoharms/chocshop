@@ -76,7 +76,10 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(64))
-    location = db.Column(db.String(64))
+    site = db.Column(db.String(64))
+    building = db.Column(db.String(64))
+    room = db.Column(db.String(64))
+
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
