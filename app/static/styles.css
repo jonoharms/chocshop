@@ -8,71 +8,43 @@
 div.post-tabs {
     margin-top: 16px;
 }
-ul.posts {
+ul.products {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
 }
-div.post-tabs ul.posts {
+div.products-tabs ul.products {
     margin: 0px;
     border-top: none;
 }
-ul.posts li.post {
+ul.products li.product {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
 }
-ul.posts li.post:hover {
+ul.products li.product:hover {
     background-color: #f0f0f0;
 }
-div.post-date {
-    float: right;
+div.product-barcode {
+    margin-left: 60px;
 }
-div.post-author {
+div.product-name {
+    margin-left: 60px;
     font-weight: bold;
 }
-div.post-thumbnail {
+div.product-thumbnail {
     position: absolute;
 }
-div.post-content {
-    margin-left: 48px;
-    min-height: 48px;
+div.product-price {
+    margin-left: 60px;
 }
-div.post-footer {
+div.product-right {
+    float: right;
+}
+div.product-footer {
     text-align: right;
 }
-ul.comments {
-    list-style-type: none;
-    padding: 0px;
-    margin: 16px 0px 0px 0px;
-}
-ul.comments li.comment {
-    margin-left: 32px;
-    padding: 8px;
-    border-bottom: 1px solid #e0e0e0;
-}
-ul.comments li.comment:nth-child(1) {
-    border-top: 1px solid #e0e0e0;
-}
-ul.comments li.comment:hover {
-    background-color: #f0f0f0;
-}
-div.comment-date {
-    float: right;
-}
-div.comment-author {
-    font-weight: bold;
-}
-div.comment-thumbnail {
-    position: absolute;
-}
-div.comment-content {
-    margin-left: 48px;
-    min-height: 48px;
-}
-div.comment-form {
-    margin: 16px 0px 16px 32px;
-}
+
 div.pagination {
     width: 100%;
     text-align: right;

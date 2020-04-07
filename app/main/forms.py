@@ -48,6 +48,7 @@ class AddNewProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(0,64)])
     barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
     current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
+    url = StringField('Icon URL', validators=[Length(0,128)])
     submit = SubmitField('Submit')
 
     def validate_name(self, field):
@@ -57,3 +58,27 @@ class AddNewProductForm(FlaskForm):
     def validate_barcode(self, field):
         if Product.query.filter_by(barcode=field.data).first():
             raise ValidationError('Barcode already in use.')
+
+
+class EditProductForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(0,64)])
+    barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
+    current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
+    url = StringField('Icon URL', validators=[Length(0,128)])
+    submit = SubmitField('Submit')
+
+    def __init__(self, product, *args, **kwargs):
+        super(EditProductForm, self).__init__(*args, **kwargs)
+        self.product = product
+
+    def validate_name(self, field):
+        if field.data != self.product.name and \
+                Product.query.filter_by(name=field.data).first():
+            raise ValidationError('Product name already registered.')
+
+    def validate_barcode(self, field):
+        if field.data != self.product.barcode and \
+                Product.query.filter_by(barcode=field.data).first():
+            raise ValidationError('Barcode already in use.')
+
+

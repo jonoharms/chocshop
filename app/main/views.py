@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, abort, flash
 from flask_login import login_required, current_user
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm
+from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, EditProductForm
 from .. import db
 from ..models import Role, User, Product, Purchase
 from ..decorators import admin_required
@@ -74,7 +74,7 @@ def add_new_product():
     if form.validate_on_submit():
         product = Product(name=form.name.data,
             barcode=form.barcode.data,
-            current_price=form.current_price.data)
+            current_price=form.current_price.data, url=form.url.data)
         db.session.add(product)
         db.session.commit()
         flash('The product has been added.')
@@ -84,6 +84,29 @@ def add_new_product():
 @main.route('/products', methods=['GET', 'POST'])
 def product_list():
     products = Product.query.order_by(Product.name).all()
-    return render_template('product_list.html', product=products)
+    return render_template('product_list.html', products=products, user=current_user)
+
+@main.route('/edit-product/<int:id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_product(id):
+    product = Product.query.get_or_404(id)
+    form = EditProductForm(product=product)
+    if form.validate_on_submit():
+        product.name = form.name.data
+        product.barcode = form.barcode.data
+        product.current_price = form.current_price.data
+        product.url = form.url.data
+        db.session.add(product)
+        db.session.commit()
+        flash('The product has been modified.')
+        return redirect(url_for('.product_list'))
+    form.name.data = product.name
+    form.barcode.data = product.barcode
+    form.current_price.data = product.current_price
+    form.url.data = product.url
+    return render_template('edit_product.html', form=form, product=product)
+
+
 
 

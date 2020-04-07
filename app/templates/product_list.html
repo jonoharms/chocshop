@@ -4,12 +4,21 @@
 {% block title %}chocshop - Product List{% endblock %}
 
 {% block page_content %}
-<ul class="posts">
-    {% for product in product %}
-    <li class="post">
-        <div class="post-author">{{ product.name }}</div>
-        <div class="post-date"> {{ product.barcode}}</div>
-        <div class="post-body">{{ product.price }}</div>
+<ul class="products">
+    {% for product in products %}
+    <li class="product">
+        <div class="product-thumbnail">
+            <img class="img-rounded profile-thumbnail"
+                    src="{{ product.url }}">
+        </div>
+        {% if user.is_administrator() %}
+        <div class="product-right">
+                <a class="btn btn-default" href="{{ url_for('.edit_product', id=product.id) }}">Edit Product</a>
+            </div>
+        {% endif %}
+        <div class="product-name">{{ product.name }}</div>
+        <div class="product-barcode"> Barcode: {{  product.barcode}}</div>
+        <div class="product-price"> Price: ${{ product.current_price }}</div>
     </li>
     {% endfor %}
 </ul>
