@@ -12,6 +12,26 @@ class Permission:
     VIEW = 2
     ADMIN = 4
 
+class Product(db.Model):
+    #ie a particular chocolate or drink
+    __tablename__ = 'products'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    barcode = db.Column(db.String(64), unique=True)
+    current_price = db.Column(db.Numeric)
+    purchases = db.relationship('Purchase', backref='product', lazy='dynamic')
+    
+
+class Purchase(db.Model):
+    #a purchase of a chocolate or drink
+    __tablename__ = 'purchases'
+    id = db.Column(db.Integer, primary_key=True)
+    price = db.Column(db.Numeric)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    buyer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    timestamp = db.Column(db.DateTime(), default=datetime.utcnow)
+    
+
 class Role(db.Model):
     #MODEL DESCRIPTION
     __tablename__ = 'roles'
@@ -81,6 +101,9 @@ class User(UserMixin, db.Model):
     building = db.Column(db.String(64))
     room = db.Column(db.String(64))
     avatar_hash = db.Column(db.String(32))
+
+    balance = db.Column(db.Numeric)
+    purchases = db.relationship('Purchase', backref='buyer', lazy='dynamic')
 
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)

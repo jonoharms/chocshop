@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}chocshop - Product List{% endblock %}
+
+{% block page_content %}
+<ul class="posts">
+    {% for product in product %}
+    <li class="post">
+        <div class="post-author">{{ product.name }}</div>
+        <div class="post-date"> {{ product.barcode}}</div>
+        <div class="post-body">{{ product.price }}</div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

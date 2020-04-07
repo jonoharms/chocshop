@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
-    SubmitField
-from wtforms.validators import DataRequired, Length, Email, Regexp
+    SubmitField, DecimalField
+from wtforms.validators import DataRequired, Length, Email, Regexp, NumberRange
 from wtforms import ValidationError
-from ..models import Role, User
+from ..models import Role, User, Product, Purchase
 
 class EditProfileForm(FlaskForm):
     name = StringField('Real name', validators=[Length(0, 64)])
@@ -43,3 +43,17 @@ class EditProfileAdminForm(FlaskForm):
         if field.data != self.user.username and \
                 User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
+
+class AddNewProductForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(0,64)])
+    barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
+    current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
+    submit = SubmitField('Submit')
+
+    def validate_name(self, field):
+        if Product.query.filter_by(name=field.data).first():
+            raise ValidationError('Product name already registered.')
+
+    def validate_barcode(self, field):
+        if Product.query.filter_by(barcode=field.data).first():
+            raise ValidationError('Barcode already in use.')
