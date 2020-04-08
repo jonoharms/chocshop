@@ -11,18 +11,35 @@
 </div>
 <h3>Recent Purchases</h3>
 <ul class="products">
-   
-    {% for purchase in purchases %}
-    <li class="product">
-        <div class="profile-thumbnail">
-            <img class="img-rounded profile-thumbnail"
-                src="{{ purchase.product.url }}" width="48px">
-        </div>
-        <div class="product-name">{{ purchase.product.name }}</div>
-        <div class="product-barcode"> Buyer: {{ purchase.buyer.name }}</div>
-        <div class="product-barcode"> Bought: {{   moment(purchase.timestamp).format('LLL') }}</div>
-        <div class="product-price"> Price: {{"$%.2f"|format(purchase.price) }}</div>
-    </li>
-    {% endfor %}
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Product</th>
+                <th scope="col">Buyer</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchases %}
+            <tr>
+                <th scope="row">  {{   moment(purchase.timestamp).format('LLL') }} </th>
+                <td> {{ purchase.product.name }} </td>
+                <td>{{ purchase.buyer.name }}</td>
+                <td>{{"$%.2f"|format(purchase.price) }}</td>
+            </tr>
+        <!-- <li class="product">
+            <div class="profile-thumbnail">
+                <img class="img-rounded profile-thumbnail"
+                    src="{{ purchase.product.url }}" width="48px">
+            </div>
+            <div class="product-name">{{ purchase.product.name }}</div>
+            <div class="product-barcode"> Buyer: {{ purchase.buyer.name }}</div>
+            <div class="product-barcode"> Bought: {{   moment(purchase.timestamp).format('LLL') }}</div>
+            <div class="product-price"> Price: {{"$%.2f"|format(purchase.price) }}</div>
+        </li> -->
+        {% endfor %}
+        </tbody>
+    </table>
 </ul>
 {% endblock %}

@@ -111,16 +111,20 @@ def edit_product(id):
     form.url.data = product.url
     return render_template('edit_product.html', form=form, product=product)
 
+def buy(user, product):
+    purchase = Purchase(price=product.current_price, buyer=user, timestamp=datetime.utcnow(), product=product)
+    user.balance = float(user.balance) - float(purchase.price)
+    db.session.add(purchase)
+    db.session.add(user)
+    db.session.commit()
+    flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
+    return purchase
+
 @main.route('/buy/<int:id>', methods=['GET', 'POST'])
 @login_required
 def buy_product(id):
     product = Product.query.get_or_404(id)
-    purchase = Purchase(price=product.current_price, buyer=current_user._get_current_object(), timestamp=datetime.utcnow(), product=product)
-    current_user.balance = float(current_user.balance) - float(purchase.price)
-    db.session.add(purchase)
-    db.session.add(current_user._get_current_object())
-    db.session.commit()
-    flash('Product Bought, Your Balance is ${:.2f}'.format(float(current_user.balance)))
+    purchase = buy(current_user._get_current_object(), product)
     return redirect(url_for('.product_list'))
 
 

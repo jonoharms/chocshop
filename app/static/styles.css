@@ -1,3 +1,9 @@
+tr {
+    line-height: 72px;
+    min-height: 72px;
+    height: 72px;
+ }
+
 .profile-thumbnail {
     position: absolute;
 }
