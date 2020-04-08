@@ -26,7 +26,9 @@ class EditProfileAdminForm(FlaskForm):
     site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
     building = StringField('Building', validators=[Length(0, 64)])
     room = StringField('Room', validators=[Length(0, 64)])
+    balance = DecimalField('Balance')
     submit = SubmitField('Submit')
+    
 
     def __init__(self, user, *args, **kwargs):
         super(EditProfileAdminForm, self).__init__(*args, **kwargs)

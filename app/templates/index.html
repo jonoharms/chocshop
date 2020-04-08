@@ -9,4 +9,20 @@
 <div class="page-header">
     <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
 </div>
+<h3>Recent Purchases</h3>
+<ul class="products">
+   
+    {% for purchase in purchases %}
+    <li class="product">
+        <div class="profile-thumbnail">
+            <img class="img-rounded profile-thumbnail"
+                src="{{ purchase.product.url }}" width="48px">
+        </div>
+        <div class="product-name">{{ purchase.product.name }}</div>
+        <div class="product-barcode"> Buyer: {{ purchase.buyer.name }}</div>
+        <div class="product-barcode"> Bought: {{   moment(purchase.timestamp).format('LLL') }}</div>
+        <div class="product-price"> Price: {{"$%.2f"|format(purchase.price) }}</div>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

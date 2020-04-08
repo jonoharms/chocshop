@@ -9,12 +9,15 @@
     <li class="product">
         <div class="product-thumbnail">
             <img class="img-rounded profile-thumbnail"
-                    src="{{ product.url }}">
+                    src="{{ product.url }}" width=48px>
         </div>
-        {% if user.is_administrator() %}
+        {% if user.is_authenticated %}
         <div class="product-right">
-                <a class="btn btn-default" href="{{ url_for('.edit_product', id=product.id) }}">Edit Product</a>
-            </div>
+            <a class="btn btn-success" href="{{ url_for('.buy_product', id=product.id) }}">Buy</a>
+            {% if user.is_administrator() %}
+                <a class="btn btn-primary" href="{{ url_for('.edit_product', id=product.id) }}">Edit Product</a>
+            {% endif %}
+        </div>
         {% endif %}
         <div class="product-name">{{ product.name }}</div>
         <div class="product-barcode"> Barcode: {{  product.barcode}}</div>

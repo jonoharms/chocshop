@@ -5,7 +5,11 @@
 <div class="page-header">
     <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
     <div class="profile-header">
+        
         <h1>{{ user.username }}</h1>
+        {% if user.balance %}
+        <h3>Current Balance: {{ "$%.2f"|format(user.balance) }}</h3>
+        {% endif %}
         {% if user.name or user.site %}
         <p>
             {% if user.name %}

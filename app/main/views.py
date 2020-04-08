@@ -5,11 +5,13 @@ from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, Edi
 from .. import db
 from ..models import Role, User, Product, Purchase
 from ..decorators import admin_required
-
+from datetime import datetime
 
 @main.route('/')
 def index():
-    return render_template('index.html')
+    purchases = Purchase.query.order_by(Purchase.timestamp.desc()).all()
+
+    return render_template('index.html', purchases=purchases)
 
 
 @main.route('/user/<username>')
@@ -49,9 +51,10 @@ def edit_profile_admin(id):
         user.confirmed = form.confirmed.data
         user.role = Role.query.get(form.role.data)
         user.name = form.name.data
-        current_user.site = form.site.data
-        current_user.building = form.building.data
-        current_user.room = form.room.data
+        user.site = form.site.data
+        user.building = form.building.data
+        user.room = form.room.data
+        user.balance = form.balance.data
         db.session.add(user)
         db.session.commit()
         flash('The profile has been updated.')
@@ -61,9 +64,10 @@ def edit_profile_admin(id):
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id
     form.name.data = user.name
-    form.site.data = current_user.site 
-    form.building.data = current_user.building
-    form.room.data = current_user.room 
+    form.site.data = user.site 
+    form.building.data = user.building
+    form.room.data = user.room 
+    form.balance.data = user.balance
     return render_template('edit_profile.html', form=form, user=user)
 
 @main.route('/add-product', methods=['GET', 'POST'])
@@ -106,6 +110,18 @@ def edit_product(id):
     form.current_price.data = product.current_price
     form.url.data = product.url
     return render_template('edit_product.html', form=form, product=product)
+
+@main.route('/buy/<int:id>', methods=['GET', 'POST'])
+@login_required
+def buy_product(id):
+    product = Product.query.get_or_404(id)
+    purchase = Purchase(price=product.current_price, buyer=current_user._get_current_object(), timestamp=datetime.utcnow(), product=product)
+    current_user.balance = float(current_user.balance) - float(purchase.price)
+    db.session.add(purchase)
+    db.session.add(current_user._get_current_object())
+    db.session.commit()
+    flash('Product Bought, Your Balance is ${:.2f}'.format(float(current_user.balance)))
+    return redirect(url_for('.product_list'))
 
 
 
