@@ -1,45 +1,18 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block title %}chocshop{% endblock %}
-
-
 
 {% block page_content %}
 <div class="page-header">
     <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
 </div>
 <h3>Recent Purchases</h3>
-<ul class="products">
-    <table class="table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Timestamp</th>
-                <th scope="col">Product</th>
-                <th scope="col">Buyer</th>
-                <th scope="col">Price</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for purchase in purchases %}
-            <tr>
-                <th scope="row">  {{   moment(purchase.timestamp).format('LLL') }} </th>
-                <td> {{ purchase.product.name }} </td>
-                <td>{{ purchase.buyer.name }}</td>
-                <td>{{"$%.2f"|format(purchase.price) }}</td>
-            </tr>
-        <!-- <li class="product">
-            <div class="profile-thumbnail">
-                <img class="img-rounded profile-thumbnail"
-                    src="{{ purchase.product.url }}" width="48px">
-            </div>
-            <div class="product-name">{{ purchase.product.name }}</div>
-            <div class="product-barcode"> Buyer: {{ purchase.buyer.name }}</div>
-            <div class="product-barcode"> Bought: {{   moment(purchase.timestamp).format('LLL') }}</div>
-            <div class="product-price"> Price: {{"$%.2f"|format(purchase.price) }}</div>
-        </li> -->
-        {% endfor %}
-        </tbody>
-    </table>
-</ul>
+{% include '_purchases.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
 {% endblock %}

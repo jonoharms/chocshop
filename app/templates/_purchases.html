@@ -1,0 +1,22 @@
+<ul class="products">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Product</th>
+                <th scope="col">Buyer</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchases %}
+            <tr>
+                <th scope="row">  {{   moment(purchase.timestamp).format('LLL') }} </th>
+                <td> {{ purchase.product.name }} </td>
+                <td>{{ purchase.buyer.name }}</td>
+                <td>{{"$%.2f"|format(purchase.price) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</ul>

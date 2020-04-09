@@ -15,6 +15,7 @@ class Config:
     CHOCSHOP_MAIL_SENDER = 'chocshop admin <chocshop.fmb@gmail.com>'
     CHOCSHOP_ADMIN = os.environ.get('CHOCSHOP_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CHOCSHOP_PURCHASES_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):

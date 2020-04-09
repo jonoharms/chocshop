@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, abort, flash
+from flask import render_template, redirect, url_for, abort, flash, request, current_app
 from flask_login import login_required, current_user
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, EditProductForm
@@ -9,9 +9,14 @@ from datetime import datetime
 
 @main.route('/')
 def index():
-    purchases = Purchase.query.order_by(Purchase.timestamp.desc()).all()
-
-    return render_template('index.html', purchases=purchases)
+   # purchases = Purchase.query.order_by(Purchase.timestamp.desc()).all()
+    page = request.args.get('page', 1, type=int)
+    pagination = Purchase.query.order_by(Purchase.timestamp.desc()).paginate(
+        page,
+        per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
+        error_out=False)
+    purchases = pagination.items
+    return render_template('index.html', purchases=purchases, pagination=pagination)
 
 
 @main.route('/user/<username>')
@@ -117,7 +122,6 @@ def buy(user, product):
     db.session.add(purchase)
     db.session.add(user)
     db.session.commit()
-    flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
     return purchase
 
 @main.route('/buy/<int:id>', methods=['GET', 'POST'])
@@ -125,6 +129,7 @@ def buy(user, product):
 def buy_product(id):
     product = Product.query.get_or_404(id)
     purchase = buy(current_user._get_current_object(), product)
+    flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
     return redirect(url_for('.product_list'))
 
 
