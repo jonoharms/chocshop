@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
 {% block title %}chocshop- {{ user.username }}{% endblock %}
 
 {% block page_content %}
@@ -42,4 +44,11 @@
         </p>
     </div>
 </div>
+<h3>Your Purchase History</h3>
+{% include '_purchases.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.user', username=user.username) }}
+</div>
+{% endif %}
 {% endblock %}

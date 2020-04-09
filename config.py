@@ -16,6 +16,7 @@ class Config:
     CHOCSHOP_ADMIN = os.environ.get('CHOCSHOP_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CHOCSHOP_PURCHASES_PER_PAGE = 20
+    CHOCSHOP_USERS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):

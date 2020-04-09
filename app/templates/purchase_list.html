@@ -2,16 +2,16 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-{% block title %}chocshop - Product List{% endblock %}
+{% block title %}chocshop - Purchase History{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Product List</h1>
+    <h1>Purchase History</h1>
 </div>
-{% include '_products.html' %}
+{% include '_purchases.html' %}
 {% if pagination %}
 <div class="pagination">
-    {{ macros.pagination_widget(pagination, '.product_list') }}
+    {{ macros.pagination_widget(pagination, '.purchase_list') }}
 </div>
 {% endif %}
 {% endblock %}

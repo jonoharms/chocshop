@@ -1,0 +1,46 @@
+<ul class="products">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Avatar</th>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Email</th>
+                <th scope="col">View</th>
+                {% if user.is_authenticated %}
+                    {% if user.is_administrator() %}
+                        <th scope="col">Edit</th>
+                    {% endif %}
+                {% endif %}
+                
+            </tr>
+        </thead>
+        <tbody>
+        {% for u in users %}
+            <tr>
+                <th scope="row">  <img class="img-rounded profile-thumbnail" src="{{ u.gravatar(size=48) }}" > </th>
+                <td> {{ u.name }}  </td>
+                <td>{{ u.site }} {{ u.building }} {{ u.room }} </td>
+                {% if u.balance < 0 %}
+                    <td style="color:red;">{{"$%.2f"|format(u.balance) }}</td>
+                {% else %}
+                    <td>{{"$%.2f"|format(u.balance) }}</td>
+                {% endif %}
+                <td><p><a href="mailto:{{ u.email }}">{{ u.email }}</a></p></td>
+                <td><a class="btn btn-default"
+                    href="{{ url_for('.user', username=u.username) }}">View Profile
+                </a></td>
+                {% if user.is_authenticated %}
+                     {% if user.is_administrator() %}
+                        <td><a class="btn btn-danger"
+                            href="{{ url_for('.edit_profile_admin', id=u.id) }}">
+                        Edit Profile [Admin]
+                    </a></td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</ul>

@@ -9,20 +9,20 @@ from datetime import datetime
 
 @main.route('/')
 def index():
-   # purchases = Purchase.query.order_by(Purchase.timestamp.desc()).all()
-    page = request.args.get('page', 1, type=int)
-    pagination = Purchase.query.order_by(Purchase.timestamp.desc()).paginate(
-        page,
-        per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
-        error_out=False)
-    purchases = pagination.items
-    return render_template('index.html', purchases=purchases, pagination=pagination)
+    return render_template('index.html')
 
 
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    page = request.args.get('page', 1, type=int)
+    pagination = user.purchases.order_by(Purchase.timestamp.desc()).paginate(
+        page,
+        per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
+        error_out=False)
+    purchases = pagination.items
+
+    return render_template('user.html', user=user, purchases=purchases, pagination=pagination)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
@@ -92,8 +92,14 @@ def add_new_product():
 
 @main.route('/products', methods=['GET', 'POST'])
 def product_list():
-    products = Product.query.order_by(Product.name).all()
-    return render_template('product_list.html', products=products, user=current_user)
+ #   products = Product.query.order_by(Product.name).all()
+    page = request.args.get('page', 1, type=int)
+    pagination = Product.query.order_by(Product.name).paginate(
+        page,
+        per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
+        error_out=False)
+    products = pagination.items
+    return render_template('product_list.html', products=products, user=current_user, pagination=pagination)
 
 @main.route('/edit-product/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -132,6 +138,30 @@ def buy_product(id):
     flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
     return redirect(url_for('.product_list'))
 
+
+@main.route('/users', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def user_list():
+    page = request.args.get('page', 1, type=int)
+    pagination = User.query.order_by(User.name).paginate(
+        page,
+        per_page=current_app.config['CHOCSHOP_USERS_PER_PAGE'],
+        error_out=False)
+    users = pagination.items
+    return render_template('user_list.html', users=users, user=current_user, pagination=pagination)
+
+@main.route('/purchases', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def purchase_list():
+    page = request.args.get('page', 1, type=int)
+    pagination = Purchase.query.order_by(Purchase.timestamp.desc()).paginate(
+        page,
+        per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
+        error_out=False)
+    purchases = pagination.items
+    return render_template('purchase_list.html', purchases=purchases, user=current_user, pagination=pagination)
 
 
 
