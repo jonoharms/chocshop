@@ -1,10 +1,11 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+from datetime import timedelta
 
 #CONFIG
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'harms khan benke'
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
@@ -17,6 +18,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CHOCSHOP_PURCHASES_PER_PAGE = 20
     CHOCSHOP_USERS_PER_PAGE = 20
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=1)
 
     @staticmethod
     def init_app(app):

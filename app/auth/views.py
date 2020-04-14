@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, session
 from flask_login import login_user, logout_user, login_required, \
     current_user
 from . import auth
@@ -7,7 +7,7 @@ from ..models import User
 from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
-
+from datetime import timedelta
 
 @auth.before_app_request
 def before_request():
@@ -33,7 +33,8 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
+            session.permanent = True
+            login_user(user, form.remember_me.data, duration=timedelta(minutes=2))
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.index')
