@@ -1,19 +1,31 @@
-from flask import render_template, redirect, url_for, abort, flash, request, current_app
-from flask_login import login_required, current_user
+from flask import render_template, redirect, url_for, abort, flash, request, current_app, session
+from flask_login import login_required, current_user, login_user
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, EditProductForm
+from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, EditProductForm, BuyForm
+from ..auth.forms import SimpleLoginForm
 from .. import db
 from ..models import Role, User, Product, Purchase
 from ..decorators import admin_required
-from datetime import datetime
+from datetime import datetime, timedelta
 
-@main.route('/')
+
+@main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    loginform = SimpleLoginForm()
+    if loginform.validate_on_submit():
+        user = User.query.filter_by(username=loginform.username.data).first()
+        if user is not None:
+            session.permanent = True
+            login_user(user, duration=timedelta(minutes=2))
+            return redirect(url_for('.user', username=user.username))
+        flash('Invalid username or barcode.')
+    return render_template('index.html', loginform=loginform, user=current_user)
 
 
-@main.route('/user/<username>')
+@main.route('/user/<username>', methods=['GET', 'POST'])
+@login_required
 def user(username):
+    buyform = BuyForm()
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
     pagination = user.purchases.order_by(Purchase.timestamp.desc()).paginate(
@@ -22,7 +34,12 @@ def user(username):
         error_out=False)
     purchases = pagination.items
 
-    return render_template('user.html', user=user, purchases=purchases, pagination=pagination)
+    if buyform.validate_on_submit():
+        product = Product.query.filter_by(barcode=buyform.barcode.data).first_or_404()
+        purchase = buy(current_user._get_current_object(), product)
+        flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
+        return redirect(url_for('.user', username=user.username))
+    return render_template('user.html', user=user, purchases=purchases, pagination=pagination, buyform=buyform)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])

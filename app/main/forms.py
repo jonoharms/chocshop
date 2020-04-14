@@ -5,6 +5,14 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, NumberRange
 from wtforms import ValidationError
 from ..models import Role, User, Product, Purchase
 
+class BuyForm(FlaskForm):
+    barcode = StringField('Scan Barcode', validators=[DataRequired(), Length(0, 64)])
+    buy = SubmitField('Buy')
+
+    def validate_barcode(self, field):
+        if not Product.query.filter_by(barcode=field.data).first():
+            raise ValidationError('Barcode Not Valid')
+
 class EditProfileForm(FlaskForm):
     name = StringField('Real name', validators=[Length(0, 64)])
     site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
