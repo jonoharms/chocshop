@@ -3,7 +3,7 @@ FROM continuumio/anaconda3:2020.02-alpine
 ENV FLASK_APP chocshop.py
 ENV FLASK_CONFIG docker
 
-RUN adduser -D chocshop
+RUN useradd -D chocshop
 USER chocshop
 
 WORKDIR /home/chocshop
