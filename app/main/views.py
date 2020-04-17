@@ -13,11 +13,16 @@ from datetime import datetime, timedelta
 def index():
     loginform = SimpleLoginForm()
     if loginform.validate_on_submit():
-        user = User.query.filter_by(username=loginform.username.data).first()
+        user = User.query.filter_by(barcode=loginform.barcode.data).first()
         if user is not None:
-            session.permanent = True
-            login_user(user, duration=timedelta(minutes=2))
-            return redirect(url_for('.user', username=user.username))
+            if user.is_administrator():
+                flash("Login required for admin access")
+                return redirect(url_for("auth.login"))
+            else:
+                session.permanent = True
+                login_user(user, duration=timedelta(minutes=2))
+                return redirect(url_for('.user', username=user.username))
+
         flash('Invalid username or barcode.')
     return render_template('index.html', loginform=loginform, user=current_user)
 
@@ -48,6 +53,7 @@ def edit_profile():
     form = EditProfileForm()
     if form.validate_on_submit():
         current_user.name = form.name.data
+     #   current_user.barcode = form.barcode.data
         current_user.site = form.site.data
         current_user.building = form.building.data
         current_user.room = form.room.data
@@ -56,6 +62,7 @@ def edit_profile():
         flash('Your profile has been updated.')
         return redirect(url_for('.user', username=current_user.username))
     form.name.data = current_user.name
+ #   form.barcode.data = current_user.barcode
     form.site.data = current_user.site 
     form.building.data = current_user.building
     form.room.data = current_user.room 
@@ -70,6 +77,7 @@ def edit_profile_admin(id):
     if form.validate_on_submit():
         user.email = form.email.data
         user.username = form.username.data
+        user.barcode = form.barcode.data
         user.confirmed = form.confirmed.data
         user.role = Role.query.get(form.role.data)
         user.name = form.name.data
@@ -82,6 +90,7 @@ def edit_profile_admin(id):
         flash('The profile has been updated.')
         return redirect(url_for('.user', username=user.username))
     form.email.data = user.email
+    form.barcode.data = user.barcode
     form.username.data = user.username
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id

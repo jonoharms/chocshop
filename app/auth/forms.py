@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, SelectField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import User
 
 class SimpleLoginForm(FlaskForm):
-    username = StringField('Barcode/Username', validators=[DataRequired(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
-               'Usernames must have only letters, numbers, dots or '
+    barcode = StringField('Barcode', validators=[DataRequired(), Length(1, 64), Regexp('[A-Za-z0-9_.]*$', 0,
+               'Barcodes must have only letters, numbers, dots or '
                'underscores')])
     submit = SubmitField('Log In')
 
@@ -25,7 +25,16 @@ class RegistrationForm(FlaskForm):
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
                'Usernames must have only letters, numbers, dots or '
                'underscores')])
+    barcode = StringField('Barcode', validators=[
+        DataRequired(), Length(1, 64),
+        Regexp('[A-Za-z0-9_.]*$', 0,
+               'Barcodes must have only letters, numbers, dots or '
+               'underscores')])
+    name = StringField('Real name', validators=[Length(0, 64),DataRequired()])
     balance = DecimalField('Initial Balance', default=0.0)
+    site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')],validators=[DataRequired()])
+    building = StringField('Building', validators=[Length(0, 64),DataRequired()])
+    room = StringField('Room', validators=[Length(0, 64),DataRequired()])
     password = PasswordField('Password', validators=[
         DataRequired(), EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
@@ -38,6 +47,10 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
+    
+    def validate_barcode(self, field):
+        if User.query.filter_by(barcode=field.data).first():
+            raise ValidationError('Barcode already in use.')
 
 
 class ChangePasswordForm(FlaskForm):

@@ -37,7 +37,7 @@ def login():
             login_user(user, form.remember_me.data, duration=timedelta(minutes=2))
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
-                next = url_for('main.index')
+                next = url_for('main.user',username=user.username)
             return redirect(next)
         flash('Invalid email or password.')
     return render_template('auth/login.html', form=form)
@@ -58,6 +58,11 @@ def register():
         user = User(email=form.email.data.lower(),
                     username=form.username.data,
                     password=form.password.data,
+                    barcode=form.barcode.data,
+                    room=form.room.data,
+                    site=form.site.data,
+                    building=form.building.data,
+                    name=form.name.data,
                     balance=form.balance.data)
         db.session.add(user)
         db.session.commit()
