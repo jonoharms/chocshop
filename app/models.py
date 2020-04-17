@@ -65,7 +65,6 @@ class Role(db.Model):
     def insert_roles():
         roles = {
             'User': [Permission.BUY, Permission.VIEW],
-            'Anonymous': [Permission.BUY],
             'Administrator': [Permission.BUY, Permission.VIEW,
                               Permission.ADMIN],
         }
@@ -221,15 +220,8 @@ class User(UserMixin, db.Model):
 
 class AnonymousUser(AnonymousUserMixin):
 
-    role = None
-
-    def __init__(self, **kwargs):
-        super(AnonymousUser, self).__init__(**kwargs)
-        if self.role is None:
-            self.role = Role.query.filter_by(name='Anonymous').first()
-
     def can(self, permissions):
-        return self.role is not None and self.role.has_permission(permissions)
+        return False
 
     def is_administrator(self):
         return False
