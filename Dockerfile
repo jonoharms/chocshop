@@ -13,7 +13,7 @@ RUN conda env create -f environment.yml
 
 COPY app app
 COPY migrations migrations
-COPY chocshopt.py config.py boot.sh ./
+COPY chocshop.py config.py boot.sh ./
 
 # runtime configuration
 EXPOSE 5001
