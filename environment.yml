@@ -1,4 +1,4 @@
-name: C:\Users\jonoh\OneDrive\Projects\Python\chocshop\venv
+name: venv
 channels:
   - conda-forge
   - defaults
@@ -39,11 +39,8 @@ dependencies:
   - sqlite=3.31.1
   - text-unidecode=1.3
   - typed-ast=1.4.1
-  - vc=14.1
-  - vs2015_runtime=14.16.27012
   - werkzeug=1.0.0
   - wheel=0.34.2
-  - wincertstore=0.2
   - wrapt=1.12.1
   - wtforms=2.2.1
   - pip:
@@ -51,5 +48,6 @@ dependencies:
     - flask-bootstrap==3.3.7.1
     - flask-sslify==0.1.5
     - visitor==0.1.3
-prefix: C:\Users\jonoh\OneDrive\Projects\Python\chocshop\venv
+    - gunicorn==20.0.4
+prefix: ./venv
 
