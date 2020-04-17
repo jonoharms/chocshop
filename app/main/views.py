@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, abort, flash, request, current_app, session
 from flask_login import login_required, current_user, login_user
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, EditProductForm, BuyForm
+from .forms import EditProfileForm, EditProfileAdminForm, AddNewProductForm, EditProductForm, BuyForm, TopUpForm
 from ..auth.forms import SimpleLoginForm
 from .. import db
 from ..models import Role, User, Product, Purchase
@@ -31,6 +31,7 @@ def index():
 @login_required
 def user(username):
     buyform = BuyForm()
+    topupform = TopUpForm()
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
     pagination = user.purchases.order_by(Purchase.timestamp.desc()).paginate(
@@ -39,12 +40,21 @@ def user(username):
         error_out=False)
     purchases = pagination.items
 
+    if topupform.validate_on_submit():
+        amount = float(topupform.amount.data)
+        current_user.balance = float(current_user.balance) + amount
+        db.session.add(current_user._get_current_object())
+        db.session.commit()
+        flash('You Topped Up ${:.2f}, Your Balance is ${:.2f}'.format(amount, float(current_user.balance)))
+        return redirect(url_for('.user', username=user.username))
+
+
     if buyform.validate_on_submit():
         product = Product.query.filter_by(barcode=buyform.barcode.data).first_or_404()
         purchase = buy(current_user._get_current_object(), product)
         flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
         return redirect(url_for('.user', username=user.username))
-    return render_template('user.html', user=user, purchases=purchases, pagination=pagination, buyform=buyform)
+    return render_template('user.html', user=user, purchases=purchases, pagination=pagination, buyform=buyform, topupform=topupform)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])

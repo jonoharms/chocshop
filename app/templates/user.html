@@ -48,6 +48,12 @@
 {% if current_user == user %}
 <h3>Buy Something</h3>
 {{ wtf.quick_form(buyform, button_map={'buy':'primary'}) }}
+{% endif %}
+{% if current_user == user %}
+<h3>Top Up</h3>
+{{ wtf.quick_form(topupform, button_map={'topup':'success'}) }}
+{% endif %}
+{% if current_user == user %}
 <h3>Your Purchase History</h3>
 {% else %}
 <h3>Their Purchase History</h3>

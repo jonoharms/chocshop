@@ -13,6 +13,11 @@ class BuyForm(FlaskForm):
         if not Product.query.filter_by(barcode=field.data).first():
             raise ValidationError('Barcode Not Valid')
 
+class TopUpForm(FlaskForm):
+    amount = DecimalField('Amount', default=0.0, validators=[DataRequired()])
+    topup = SubmitField('Top Up')
+    
+
 class EditProfileForm(FlaskForm):
     name = StringField('Real name', validators=[Length(0, 64)])
     site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
