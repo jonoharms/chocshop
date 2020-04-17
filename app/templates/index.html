@@ -12,7 +12,7 @@
     {% if user.is_authenticated %}
 
     {% else %}
-        {{ wtf.quick_form(loginform) }}
+    <p> {{ wtf.quick_form(loginform) }} </p>
         <p>New user? <a href="{{ url_for('auth.register') }}">Click here to register</a>.</p>
     {% endif%}
 </div>

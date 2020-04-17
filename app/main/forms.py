@@ -6,7 +6,7 @@ from wtforms import ValidationError
 from ..models import Role, User, Product, Purchase
 
 class BuyForm(FlaskForm):
-    barcode = StringField('Scan Barcode', validators=[DataRequired(), Length(0, 64)])
+    barcode = StringField('Scan Barcode', validators=[DataRequired(), Length(0, 64)],render_kw={'autofocus': True})
     buy = SubmitField('Buy')
 
     def validate_barcode(self, field):

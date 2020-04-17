@@ -24,9 +24,9 @@
         </p>
         {% endif %}
 
-        {% if current_user.is_administrator() %}
-            <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
-        {% endif %}
+
+        <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+
         
         <p>
             Member since {{ moment(user.member_since).format('L') }}.

@@ -7,7 +7,7 @@ from ..models import User
 class SimpleLoginForm(FlaskForm):
     barcode = StringField('Barcode', validators=[DataRequired(), Length(1, 64), Regexp('[A-Za-z0-9_.]*$', 0,
                'Barcodes must have only letters, numbers, dots or '
-               'underscores')])
+               'underscores')],render_kw={'autofocus': True})
     submit = SubmitField('Log In')
 
 class LoginForm(FlaskForm):

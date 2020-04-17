@@ -20,7 +20,7 @@ def index():
                 return redirect(url_for("auth.login"))
             else:
                 session.permanent = True
-                login_user(user, duration=timedelta(minutes=2))
+                login_user(user, duration=current_app.config['PERMANENT_SESSION_LIFETIME'])
                 return redirect(url_for('.user', username=user.username))
 
         flash('Invalid username or barcode.')

@@ -11,6 +11,7 @@ from datetime import timedelta
 
 @auth.before_app_request
 def before_request():
+    session.modified = True
     if current_user.is_authenticated:
         current_user.ping()
         if not current_user.confirmed \
@@ -33,8 +34,8 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user is not None and user.verify_password(form.password.data):
-            session.permanent = True
-            login_user(user, form.remember_me.data, duration=timedelta(minutes=2))
+       #     session.permanent = True
+            login_user(user, form.remember_me.data)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 next = url_for('main.user',username=user.username)
