@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM continuumio/anaconda3:2020.02-alpine
 
 ENV FLASK_APP chocshop.py
 ENV FLASK_CONFIG docker
@@ -8,14 +8,13 @@ USER chocshop
 
 WORKDIR /home/chocshop
 
-COPY requirements requirements
-RUN python -m venv venv
-RUN venv/bin/pip install -r requirements/docker.txt
+COPY environment.yml environment.yml
+RUN conda env create -f environment.yml
 
 COPY app app
 COPY migrations migrations
-COPY flasky.py config.py boot.sh ./
+COPY chocshopt.py config.py boot.sh ./
 
 # runtime configuration
-EXPOSE 5000
+EXPOSE 5001
 ENTRYPOINT ["./boot.sh"]
