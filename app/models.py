@@ -97,9 +97,9 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     name = db.Column(db.String(64))
-    site = db.Column(db.String(64))
-    building = db.Column(db.String(64))
-    room = db.Column(db.String(64))
+ #   site = db.Column(db.String(64))
+ #   building = db.Column(db.String(64))
+ #   room = db.Column(db.String(64))
     avatar_hash = db.Column(db.String(32))
 
     balance = db.Column(db.Numeric)

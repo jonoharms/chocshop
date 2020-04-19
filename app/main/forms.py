@@ -19,11 +19,26 @@ class TopUpForm(FlaskForm):
     
 
 class EditProfileForm(FlaskForm):
-    name = StringField('Real name', validators=[Length(0, 64)])
-    site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
-    building = StringField('Building', validators=[Length(0, 64)])
-    room = StringField('Room', validators=[Length(0, 64)])
+    name = StringField('Real Name', validators=[Length(0, 64)])
+    barcode = StringField('Barcode', validators=[
+        DataRequired(), Length(1, 64),
+        Regexp('[A-Za-z0-9_.]*$', 0,
+               'Barcodes must have only letters, numbers, dots or '
+               'underscores')])
+  #  site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
+  #  building = StringField('Building', validators=[Length(0, 64)])
+  #  room = StringField('Room', validators=[Length(0, 64)])
     submit = SubmitField('Submit')
+
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def validate_barcode(self, field):
+        if field.data != self.user.barcode and \
+                User.query.filter_by(barcode=field.data).first():
+            raise ValidationError('Barcode already in use.')
+
 
 class EditProfileAdminForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
@@ -41,9 +56,9 @@ class EditProfileAdminForm(FlaskForm):
     confirmed = BooleanField('Confirmed')
     role = SelectField('Role', coerce=int)
     name = StringField('Real name', validators=[Length(0, 64)])
-    site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
-    building = StringField('Building', validators=[Length(0, 64)])
-    room = StringField('Room', validators=[Length(0, 64)])
+ #   site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
+ #   building = StringField('Building', validators=[Length(0, 64)])
+ #   room = StringField('Room', validators=[Length(0, 64)])
     balance = DecimalField('Balance')
     submit = SubmitField('Submit')
     

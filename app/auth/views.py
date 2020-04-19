@@ -60,9 +60,6 @@ def register():
                     username=form.username.data,
                     password=form.password.data,
                     barcode=form.barcode.data,
-                    room=form.room.data,
-                    site=form.site.data,
-                    building=form.building.data,
                     name=form.name.data,
                     balance=form.balance.data)
         db.session.add(user)

@@ -60,22 +60,23 @@ def user(username):
 @main.route('/edit-profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    form = EditProfileForm()
+    user = current_user
+    form = EditProfileForm(user=user)
     if form.validate_on_submit():
         current_user.name = form.name.data
-     #   current_user.barcode = form.barcode.data
-        current_user.site = form.site.data
-        current_user.building = form.building.data
-        current_user.room = form.room.data
+        current_user.barcode = form.barcode.data
+     #   current_user.site = form.site.data
+     #   current_user.building = form.building.data
+     #   current_user.room = form.room.data
         db.session.add(current_user._get_current_object())
         db.session.commit()
         flash('Your profile has been updated.')
         return redirect(url_for('.user', username=current_user.username))
     form.name.data = current_user.name
- #   form.barcode.data = current_user.barcode
-    form.site.data = current_user.site 
-    form.building.data = current_user.building
-    form.room.data = current_user.room 
+    form.barcode.data = current_user.barcode
+ #   form.site.data = current_user.site 
+ #   form.building.data = current_user.building
+ #   form.room.data = current_user.room 
     return render_template('edit_profile.html', form=form)
 
 @main.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
@@ -91,9 +92,9 @@ def edit_profile_admin(id):
         user.confirmed = form.confirmed.data
         user.role = Role.query.get(form.role.data)
         user.name = form.name.data
-        user.site = form.site.data
-        user.building = form.building.data
-        user.room = form.room.data
+    #    user.site = form.site.data
+    #    user.building = form.building.data
+    #    user.room = form.room.data
         user.balance = form.balance.data
         db.session.add(user)
         db.session.commit()
@@ -105,9 +106,9 @@ def edit_profile_admin(id):
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id
     form.name.data = user.name
-    form.site.data = user.site 
-    form.building.data = user.building
-    form.room.data = user.room 
+    #form.site.data = user.site 
+    #form.building.data = user.building
+    #form.room.data = user.room 
     form.balance.data = user.balance
     return render_template('edit_profile.html', form=form, user=user)
 
