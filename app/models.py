@@ -102,7 +102,7 @@ class User(UserMixin, db.Model):
  #   room = db.Column(db.String(64))
     avatar_hash = db.Column(db.String(32))
 
-    balance = db.Column(db.Numeric)
+    balance = db.Column(db.Numeric(precision=5, scale=2, asdecimal=True))
     purchases = db.relationship('Purchase', backref='buyer', lazy='dynamic')
 
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
