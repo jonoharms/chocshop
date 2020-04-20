@@ -20,7 +20,9 @@ class Config:
     CHOCSHOP_USERS_PER_PAGE = 20
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=1)
     SSL_REDIRECT = False
-
+    
+    SQLALCHEMY_ECHO = True
+    
     @staticmethod
     def init_app(app):
         pass
