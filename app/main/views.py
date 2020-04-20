@@ -41,8 +41,8 @@ def user(username):
     purchases = pagination.items
 
     if topupform.validate_on_submit():
-        amount = float(topupform.amount.data)
-        current_user.balance = float(current_user.balance) + amount
+        amount = topupform.amount.data
+        current_user.balance = current_user.balance + amount
         db.session.add(current_user._get_current_object())
         db.session.commit()
         flash('You Topped Up ${:.2f}, Your Balance is ${:.2f}'.format(amount, float(current_user.balance)))
@@ -161,7 +161,7 @@ def edit_product(id):
 
 def buy(user, product):
     purchase = Purchase(price=product.current_price, buyer=user, timestamp=datetime.utcnow(), product=product)
-    user.balance = float(user.balance) - float(purchase.price)
+    user.balance = user.balance - purchase.price
     db.session.add(purchase)
     db.session.add(user)
     db.session.commit()

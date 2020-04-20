@@ -31,7 +31,7 @@ class RegistrationForm(FlaskForm):
                'Barcodes must have only letters, numbers, dots or '
                'underscores')])
     name = StringField('Real name', validators=[Length(0, 64),DataRequired()])
-    balance = DecimalField('Initial Balance', default=0.0)
+    balance = DecimalField('Initial Balance', default=0.00, places=2)
   #  site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')],validators=[DataRequired()])
   #  building = StringField('Building', validators=[Length(0, 64),DataRequired()])
   #  room = StringField('Room', validators=[Length(0, 64),DataRequired()])

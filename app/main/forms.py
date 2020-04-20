@@ -14,7 +14,7 @@ class BuyForm(FlaskForm):
             raise ValidationError('Barcode Not Valid')
 
 class TopUpForm(FlaskForm):
-    amount = DecimalField('Amount', default=0.0, validators=[DataRequired()])
+    amount = DecimalField('Amount', default=0.00,places=2, validators=[DataRequired()])
     topup = SubmitField('Top Up')
     
 
@@ -59,7 +59,7 @@ class EditProfileAdminForm(FlaskForm):
  #   site = SelectField('Site', choices=[('FMB','Fishermand Bend'), ('EDN', 'Edinburgh'),('OTH', 'Other')])
  #   building = StringField('Building', validators=[Length(0, 64)])
  #   room = StringField('Room', validators=[Length(0, 64)])
-    balance = DecimalField('Balance')
+    balance = DecimalField('Balance', default=0.00, places=2)
     submit = SubmitField('Submit')
     
 

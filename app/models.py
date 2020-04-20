@@ -18,7 +18,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     barcode = db.Column(db.String(64), unique=True)
-    current_price = db.Column(db.Float)
+    current_price = db.Column(db.Numeric(precision=5, scale=2, asdecimal=True))
     purchases = db.relationship('Purchase', backref='product', lazy='dynamic')
     url = db.Column(db.String(128))
 
@@ -26,7 +26,7 @@ class Purchase(db.Model):
     #a purchase of a chocolate or drink
     __tablename__ = 'purchases'
     id = db.Column(db.Integer, primary_key=True)
-    price = db.Column(db.Float)
+    price = db.Column(db.Numeric(precision=5, scale=2, asdecimal=True))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     buyer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     timestamp = db.Column(db.DateTime(), default=datetime.utcnow)

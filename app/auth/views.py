@@ -9,6 +9,8 @@ from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
 from datetime import timedelta
 
+
+
 @auth.before_app_request
 def before_request():
     session.modified = True
