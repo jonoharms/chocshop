@@ -3,7 +3,7 @@ FROM python:3.7.7-buster
 ENV FLASK_APP chocshop.py
 ENV FLASK_CONFIG docker
 
-RUN adduser -D chocshop
+RUN adduser -disabled-password --gecos "" chocshop
 USER chocshop
 WORKDIR /home/chocshop
 
@@ -18,5 +18,6 @@ COPY migrations migrations
 COPY chocshop.py config.py boot.sh ./
 
 # runtime configuration
+#RUN ["chmod", "+x", "./boot.sh"]
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]

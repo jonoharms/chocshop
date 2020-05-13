@@ -1,5 +1,7 @@
 #!/bin/sh
 source venv/bin/activate
+export PATH="$HOME/venv/bin/:$PATH"
+
 while true; do
     flask deploy
     if [[ "$?" == "0" ]]; then
