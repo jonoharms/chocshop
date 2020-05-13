@@ -1,23 +1,16 @@
-FROM python:3.7.7-buster
+FROM python:3.7.7-alpine
 
 ENV FLASK_APP chocshop.py
 ENV FLASK_CONFIG docker
 
-#USER anaconda
-#WORKDIR /home/anaconda
-#ENV PATH /opt/conda/bin:/bin:/sbin:/usr/bin
-
-
+RUN adduser -D chocshop
+USER chocshop
+WORKDIR /home/chocshop
 
 # Create the environment:
-#COPY environment.yml environment.yml
-#RUN conda env create -f environment.yml
-
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-
-#RUN echo "source activate venv" > ~/.bashrc
-#ENV PATH /opt/conda/envs/venv/bin:/bin:/sbin:/usr/bin
+RUN python -m venv venv
+RUN venv/bin/pip install -r requirements.txt
 
 #copy app
 COPY app app

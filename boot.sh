@@ -1,5 +1,5 @@
 #!/bin/sh
-#conda activate venv
+source venv/bin/activate
 while true; do
     flask deploy
     if [[ "$?" == "0" ]]; then
