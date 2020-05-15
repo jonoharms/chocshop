@@ -1,0 +1,23 @@
+sudo apt update
+sudo apt upgrade
+sudo apt install lubuntu-desktop
+sudo nano /boot/firmware/usercfg.txt -> add disable_overscan=1
+
+sudo apt install docker
+sudo apt install docker-compose
+sudo usermod -aG docker ubuntu
+
+ssh-keygen -t rsa -b 4096 -C "jonoharms@gmail.com"
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub
+
+git clone git@github.com:jonoharms/chocshop.git
+cd chocshop
+copy env files
+
+docker-compose up -d --build
+docker-compose logs -f
+docker-compose ps
+
+docker ps -a
