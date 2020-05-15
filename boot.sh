@@ -1,5 +1,6 @@
-#!/bin/sh
-source venv/bin/activate
+#!/bin/bash
+
+#source venv/bin/activate
 export PATH="$HOME/venv/bin/:$PATH"
 
 while true; do
