@@ -35,8 +35,6 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                        <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                 {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Admin Log In</a></li>

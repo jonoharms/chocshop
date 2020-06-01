@@ -41,8 +41,7 @@ class EditProfileForm(FlaskForm):
 
 
 class EditProfileAdminForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Length(1, 64),
-                                             Email()])
+    email = StringField('Email')
     username = StringField('Username', validators=[
         DataRequired(), Length(1, 64),
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,

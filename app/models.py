@@ -95,7 +95,7 @@ class User(UserMixin, db.Model):
     barcode = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
-    confirmed = db.Column(db.Boolean, default=False)
+    confirmed = db.Column(db.Boolean, default=True)
     name = db.Column(db.String(64))
  #   site = db.Column(db.String(64))
  #   building = db.Column(db.String(64))
