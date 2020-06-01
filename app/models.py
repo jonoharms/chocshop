@@ -112,10 +112,10 @@ class User(UserMixin, db.Model):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
-            if self.email == current_app.config['CHOCSHOP_ADMIN']:
-                self.role = Role.query.filter_by(name='Administrator').first()
-            if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
+            #if self.email == current_app.config['CHOCSHOP_ADMIN']:
+            #    self.role = Role.query.filter_by(name='Administrator').first()
+            #if self.role is None:
+            self.role = Role.query.filter_by(default=True).first()
         
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = self.gravatar_hash()
