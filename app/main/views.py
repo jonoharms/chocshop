@@ -86,7 +86,7 @@ def edit_profile_admin(id):
     user = User.query.get_or_404(id)
     form = EditProfileAdminForm(user=user)
     if form.validate_on_submit():
-        user.email = form.email.data
+        #user.email = form.email.data
         user.username = form.username.data
         user.barcode = form.barcode.data
         user.confirmed = form.confirmed.data
@@ -100,7 +100,7 @@ def edit_profile_admin(id):
         db.session.commit()
         flash('The profile has been updated.')
         return redirect(url_for('.user', username=user.username))
-    form.email.data = user.email
+   # form.email.data = user.email
     form.barcode.data = user.barcode
     form.username.data = user.username
     form.confirmed.data = user.confirmed

@@ -4,9 +4,7 @@
             <tr>
                 <th scope="col">Avatar</th>
                 <th scope="col">Name</th>
-                <th scope="col">Location</th>
                 <th scope="col">Balance</th>
-                <th scope="col">Email</th>
                 <th scope="col">View</th>
                 {% if user.is_authenticated %}
                     {% if user.is_administrator() %}
@@ -21,13 +19,11 @@
             <tr>
                 <th scope="row">  <img class="img-rounded profile-thumbnail" src="{{ u.gravatar(size=48) }}" > </th>
                 <td> {{ u.name }}  </td>
-                <td>{{ u.site }} {{ u.building }} {{ u.room }} </td>
                 {% if u.balance < 0 %}
                     <td style="color:red;">{{"$%.2f"|format(u.balance) }}</td>
                 {% else %}
                     <td>{{"$%.2f"|format(u.balance) }}</td>
                 {% endif %}
-                <td><p><a href="mailto:{{ u.email }}">{{ u.email }}</a></p></td>
                 <td><a class="btn btn-default"
                     href="{{ url_for('.user', username=u.username) }}">View Profile
                 </a></td>

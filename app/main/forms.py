@@ -41,7 +41,7 @@ class EditProfileForm(FlaskForm):
 
 
 class EditProfileAdminForm(FlaskForm):
-    email = StringField('Email')
+   # email = StringField('Email')
     username = StringField('Username', validators=[
         DataRequired(), Length(1, 64),
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
@@ -68,10 +68,10 @@ class EditProfileAdminForm(FlaskForm):
                              for role in Role.query.order_by(Role.name).all()]
         self.user = user
 
-    def validate_email(self, field):
-        if field.data != self.user.email and \
-                User.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+    # def validate_email(self, field):
+    #     if field.data != self.user.email and \
+    #             User.query.filter_by(email=field.data).first():
+    #         raise ValidationError('Email already registered.')
 
     def validate_username(self, field):
         if field.data != self.user.username and \
