@@ -128,6 +128,7 @@ def add_new_product():
     return render_template('add_new_product.html', form=form, user=user)
 
 @main.route('/products', methods=['GET', 'POST'])
+@login_required
 def product_list():
  #   products = Product.query.order_by(Product.name).all()
     page = request.args.get('page', 1, type=int)
