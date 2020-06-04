@@ -14,9 +14,6 @@ def users(count=100):
                  password='password',
                  confirmed=True,
                  name=fake.name(),
-                 site=fake.random_element(elements=('FMB','EDN')),
-                 building=str(randint(1,99)),
-                 room="{}.{}".format(randint(0,5),randint(1,30)),
                  member_since=fake.past_date(),
                  balance=randrange(0,50,5)
         )
@@ -26,7 +23,33 @@ def users(count=100):
             i += 1
         except IntegrityError:
             db.session.rollback()
-
+            
+def products(count=10):
+    fake = Faker()
+    i = 0
+    # class Product(db.Model):
+    # #ie a particular chocolate or drink
+    # __tablename__ = 'products'
+    # id = db.Column(db.Integer, primary_key=True)
+    # name = db.Column(db.String(64), unique=True)
+    # description = db.Column(db.String(128))
+    # barcode = db.Column(db.String(64), unique=True)
+    # current_price = db.Column(db.Numeric(precision=5, scale=2, asdecimal=True))
+    # purchases = db.relationship('Purchase', backref='product', lazy='dynamic')
+    # url = db.Column(db.String(128))
+    while i < count:
+        u = Product(name=fake.user_name(),
+                 description=fake.text(30),
+                 barcode=randint(1000000,9999999),
+                 current_price=fake.random_element(elements=(1.2,1.5,0.5,1.0)),
+                 url=fake.image_url()
+        )
+        db.session.add(u)
+        try:
+            db.session.commit()
+            i += 1
+        except IntegrityError:
+            db.session.rollback()
 
 def purchases(count=100):
     fake = Faker()
