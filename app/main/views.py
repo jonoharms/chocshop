@@ -11,6 +11,8 @@ from datetime import datetime, timedelta
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    
+    #login handling
     loginform = SimpleLoginForm()
     if loginform.validate_on_submit():
         user = User.query.filter_by(barcode=loginform.barcode.data).first()
@@ -24,7 +26,16 @@ def index():
                 return redirect(url_for('.user', username=user.username))
 
         flash('Invalid username or barcode.')
-    return render_template('index.html', loginform=loginform, user=current_user)
+    
+    #user paginination
+    page = request.args.get('page', 1, type=int)
+    pagination = User.query.order_by(User.name).paginate(
+        page,
+        per_page=current_app.config['CHOCSHOP_USERS_PER_PAGE'],
+        error_out=False)
+    users = pagination.items
+
+    return render_template('index.html', loginform=loginform, user=current_user, users=users,pagination=pagination)
 
 
 @main.route('/user/<username>', methods=['GET', 'POST'])

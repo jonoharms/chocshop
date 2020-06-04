@@ -21,3 +21,7 @@ docker-compose logs -f
 docker-compose ps
 
 docker ps -a
+
+#migration
+flask db migrate -m "initial migration"
+flask db upgrade

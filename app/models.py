@@ -17,6 +17,7 @@ class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    description = db.Column(db.String(128))
     barcode = db.Column(db.String(64), unique=True)
     current_price = db.Column(db.Numeric(precision=5, scale=2, asdecimal=True))
     purchases = db.relationship('Purchase', backref='product', lazy='dynamic')
