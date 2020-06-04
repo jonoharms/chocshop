@@ -95,7 +95,16 @@
     }
     };
 
-    const TIME_LIMIT = 20;
+    // give admin longer login time
+    {% if current_user.is_administrator() %}
+        const TIME_LIMIT = 5*60;
+    {% else %}
+        const TIME_LIMIT = 20;
+    {% endif %}
+
+
+
+    
     let timePassed = 0;
     let timeLeft = TIME_LIMIT;
     let timerInterval = null;

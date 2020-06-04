@@ -63,7 +63,11 @@ def user(username):
     if buyform.validate_on_submit():
         product = Product.query.filter_by(barcode=buyform.barcode.data).first_or_404()
         purchase = buy(current_user._get_current_object(), product)
-        flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
+        if purchase.product.description is not None:
+            flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.description, float(current_user.balance)))
+        else:
+            flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
+    
         return redirect(url_for('.user', username=user.username))
     return render_template('user.html', user=user, purchases=purchases, pagination=pagination, buyform=buyform, topupform=topupform)
 

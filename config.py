@@ -16,8 +16,8 @@ class Config:
     CHOCSHOP_MAIL_SENDER = 'chocshop admin <chocshop.fmb@gmail.com>'
     CHOCSHOP_ADMIN = os.environ.get('CHOCSHOP_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    CHOCSHOP_PURCHASES_PER_PAGE = 20
-    CHOCSHOP_USERS_PER_PAGE = 20
+    CHOCSHOP_PURCHASES_PER_PAGE = 30
+    CHOCSHOP_USERS_PER_PAGE = 30
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
     SSL_REDIRECT = False
     
