@@ -6,23 +6,30 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
-</div>
-<div class="col-md-4">
+    <h1> 
+        {% if current_user.is_authenticated %}
+            Hello {{ current_user.username }}
+        {% else %}
+            chocshop
+        {% endif %}
+    </h1>
+
     {% if user.is_authenticated %}
 
     {% else %}
-    <p> {{ wtf.quick_form(loginform) }} </p>
-        <p>New user? <a href="{{ url_for('auth.register') }}">Click here to register</a>.</p>
+        <p> {{ wtf.quick_form(loginform) }} </p>
+        <!-- <p>New user? <a href="{{ url_for('auth.register') }}">Click here to register</a>.</p> -->
     {% endif%}
-</div>
 
 </div>
+
+<h2>Debt Board</h2>
+<i>Credit is positive, debt is negative</i>
 {% include '_users.html' %}
 {% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.user_list') }}
-</div>
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, '.user_list') }}
+    </div>
 {% endif %}
 
 {% endblock %}

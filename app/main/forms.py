@@ -6,7 +6,7 @@ from wtforms import ValidationError
 from ..models import Role, User, Product, Purchase
 
 class BuyForm(FlaskForm):
-    barcode = StringField('Scan Barcode', validators=[DataRequired(), Length(0, 64)],render_kw={'autofocus': True})
+    barcode = StringField('Barcode', validators=[DataRequired(), Length(0, 64)],render_kw={'autofocus': True})
     buy = SubmitField('Buy')
 
     def validate_barcode(self, field):
@@ -86,6 +86,7 @@ class EditProfileAdminForm(FlaskForm):
 
 class AddNewProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(0,64)])
+    description = StringField('Description', validators=[Length(0,128)], default=None)
     barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
     current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
     url = StringField('Icon URL', validators=[Length(0,128)])
@@ -102,6 +103,7 @@ class AddNewProductForm(FlaskForm):
 
 class EditProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(0,64)])
+    description = StringField('Description', validators=[Length(0,128)], default=None)
     barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
     current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
     url = StringField('Icon URL', validators=[Length(0,128)])

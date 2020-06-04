@@ -1,15 +1,15 @@
 tr {
-    line-height: 72px;
-    min-height: 72px;
-    height: 72px;
+    line-height: 48px;
+    min-height: 48px;
+    height: 48px;
  }
 
 .profile-thumbnail {
     position: absolute;
 }
 .profile-header {
-    min-height: 260px;
-    margin-left: 280px;
+    min-height: 132px;
+    margin-left: 148px;
 }
 div.post-tabs {
     margin-top: 16px;
@@ -78,8 +78,18 @@ div.flask-pagedown-preview h3 {
     font-size: 130%;
 }
 .post-body h3 {
-    font-size: 120%;
+    font-size: 110%;
 }
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
 }
+
+.row {
+    display: flex;
+  }
+  
+.column {
+    flex: 50%;
+    padding: 0 15px;
+}
+

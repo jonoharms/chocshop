@@ -5,7 +5,7 @@ from wtforms import ValidationError
 from ..models import User
 
 class SimpleLoginForm(FlaskForm):
-    barcode = StringField('Barcode', validators=[DataRequired(), Length(1, 64), Regexp('[A-Za-z0-9_.]*$', 0,
+    barcode = StringField('Please Scan Your Barcode to Begin:', validators=[DataRequired(), Length(1, 64), Regexp('[A-Za-z0-9_.]*$', 0,
                'Barcodes must have only letters, numbers, dots or '
                'underscores')],render_kw={'autofocus': True})
     submit = SubmitField('Log In')

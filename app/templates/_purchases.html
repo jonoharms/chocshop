@@ -5,6 +5,7 @@
                 <th scope="col">Timestamp</th>
                 <th scope="col">Icon</th>
                 <th scope="col">Product</th>
+                <th scope="col">Description</th>
                 <th scope="col">Buyer</th>
                 <th scope="col">Price</th>
             </tr>
@@ -15,6 +16,7 @@
                 <th scope="row">  {{   moment(purchase.timestamp).format('LLL') }} </th>
                 <td> <img class="img-rounded profile-thumbnail" src="{{ purchase.product.url }}" width=48px> </td>
                 <td> {{ purchase.product.name }} </td>
+                <td> {{ purchase.product.description }} </td>
                 <td>{{ purchase.buyer.name }}</td>
                 <td>{{"$%.2f"|format(purchase.price) }}</td>
             </tr>

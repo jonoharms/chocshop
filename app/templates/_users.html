@@ -5,7 +5,9 @@
                 <th scope="col">Avatar</th>
                 <th scope="col">Name</th>
                 <th scope="col">Balance</th>
+                {% if user.is_authenticated %}
                 <th scope="col">View</th>
+                {% endif %}
                 {% if user.is_authenticated %}
                     {% if user.is_administrator() %}
                         <th scope="col">Edit</th>
@@ -17,16 +19,18 @@
         <tbody>
         {% for u in users %}
             <tr>
-                <th scope="row">  <img class="img-rounded profile-thumbnail" src="{{ u.gravatar(size=48) }}" > </th>
+                <th scope="row">  <img class="img-rounded profile-thumbnail" src="{{ u.gravatar(size=32) }}" > </th>
                 <td> {{ u.name }}  </td>
                 {% if u.balance < 0 %}
                     <td style="color:red;">{{"$%.2f"|format(u.balance) }}</td>
                 {% else %}
                     <td>{{"$%.2f"|format(u.balance) }}</td>
                 {% endif %}
-                <td><a class="btn btn-default"
-                    href="{{ url_for('.user', username=u.username) }}">View Profile
-                </a></td>
+                {% if user.is_authenticated %}
+                    <td><a class="btn btn-default"
+                        href="{{ url_for('.user', username=u.username) }}">View Profile
+                    </a></td>
+                {% endif %}
                 {% if user.is_authenticated %}
                      {% if user.is_administrator() %}
                         <td><a class="btn btn-danger"

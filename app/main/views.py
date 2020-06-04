@@ -130,6 +130,7 @@ def add_new_product():
     form = AddNewProductForm()
     if form.validate_on_submit():
         product = Product(name=form.name.data,
+            description=form.description.data,
             barcode=form.barcode.data,
             current_price=form.current_price.data, url=form.url.data)
         db.session.add(product)
@@ -158,6 +159,7 @@ def edit_product(id):
     form = EditProductForm(product=product)
     if form.validate_on_submit():
         product.name = form.name.data
+        product.description = form.description.data
         product.barcode = form.barcode.data
         product.current_price = form.current_price.data
         product.url = form.url.data
@@ -166,6 +168,7 @@ def edit_product(id):
         flash('The product has been modified.')
         return redirect(url_for('.product_list'))
     form.name.data = product.name
+    form.description.data = product.description
     form.barcode.data = product.barcode
     form.current_price.data = product.current_price
     form.url.data = product.url
@@ -184,7 +187,11 @@ def buy(user, product):
 def buy_product(id):
     product = Product.query.get_or_404(id)
     purchase = buy(current_user._get_current_object(), product)
-    flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
+    if purchase.product.description is not None:
+        flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.description, float(current_user.balance)))
+    else:
+        flash('You bought a {}, Your Balance is ${:.2f}'.format(purchase.product.name, float(current_user.balance)))
+    
     return redirect(url_for('.product_list'))
 
 

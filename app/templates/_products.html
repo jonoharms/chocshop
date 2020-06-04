@@ -4,6 +4,7 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Icon</th>
+                <th scope="col">Description</th>
                 <th scope="col">Barcode</th>
                 <th scope="col">Price</th>
                 {% if user.is_authenticated %}
@@ -19,6 +20,7 @@
             <tr>
                 <th scope="row">  {{ product.name }} </th>
                 <td> <img class="img-rounded profile-thumbnail" src="{{ product.url }}" width=48px> </td>
+                <td>{{  product.description}}</td>
                 <td>{{  product.barcode}}</td>
                 <td>{{"$%.2f"|format(product.current_price) }}</td>
                 {% if user.is_authenticated %}
