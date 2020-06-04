@@ -36,6 +36,10 @@
                         <td><a class="btn btn-danger"
                             href="{{ url_for('.edit_profile_admin', id=u.id) }}">
                         Edit Profile [Admin]
+                    </a>
+                    <a class="btn btn-danger"
+                    href="{{ url_for('auth.change_password', username=user.username) }}">
+                        Change Password [Admin]
                     </a></td>
                     {% endif %}
                 {% endif %}
