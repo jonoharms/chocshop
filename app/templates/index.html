@@ -5,31 +5,39 @@
 {% block title %}chocshop{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-    <h1> 
-        {% if current_user.is_authenticated %}
-            Hello {{ current_user.username }}
-        {% else %}
-            chocshop
-        {% endif %}
-    </h1>
+<div class="container">
+    <div class="row content">
+        <div class="col-sm-3">
 
-    {% if user.is_authenticated %}
+            <h1> 
+                {% if current_user.is_authenticated %}
+                    Hello {{ current_user.username }}
+                {% else %}
+                    Enter Here
+                {% endif %}
+            </h1>
 
-    {% else %}
-        <p> {{ wtf.quick_form(loginform) }} </p>
-        <!-- <p>New user? <a href="{{ url_for('auth.register') }}">Click here to register</a>.</p> -->
-    {% endif%}
+            {% if user.is_authenticated %}
 
-</div>
+            {% else %}
+                <p> {{ wtf.quick_form(loginform) }} </p>
+                <!-- <p>New user? <a href="{{ url_for('auth.register') }}">Click here to register</a>.</p> -->
+            {% endif%}
 
-<h2>Debt Board</h2>
-<i>Credit is positive, debt is negative</i>
-{% include '_users.html' %}
-{% if pagination %}
-    <div class="pagination">
-        {{ macros.pagination_widget(pagination, '.index') }}
+        </div>
+
+        <div class="col-sm-7">
+            <h1>Debt Board</h1>
+            <i>Credit is positive, debt is negative</i>
+            {% include '_users.html' %}
+            {% if pagination %}
+                <div class="pagination">
+                    {{ macros.pagination_widget(pagination, '.index') }}
+                </div>
+            {% endif %}
+        </div>
+        
     </div>
-{% endif %}
+</div>
 
 {% endblock %}

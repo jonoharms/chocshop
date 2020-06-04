@@ -1,12 +1,9 @@
 tr {
-    line-height: 48px;
-    min-height: 48px;
-    height: 48px;
+    line-height: 32px;
+    min-height: 32px;
+    height: 32px;
  }
 
-.page-header {
-    min-height: 132px;
-}
 
 .profile-thumbnail {
     position: absolute;
