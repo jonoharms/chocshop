@@ -29,7 +29,7 @@ def index():
     
     #user paginination
     page = request.args.get('page', 1, type=int)
-    pagination = User.query.order_by(User.name).paginate(
+    pagination = User.query.filter(User.username != 'admin').order_by(User.name).paginate(
         page,
         per_page=current_app.config['CHOCSHOP_USERS_PER_PAGE'],
         error_out=False)
