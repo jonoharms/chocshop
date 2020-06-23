@@ -18,6 +18,7 @@
         </thead>
         <tbody>
         {% for u in users %}
+            {%if !u.is_administrator() %}
             <tr>
                 <th scope="row">  <img class="img-rounded profile-thumbnail" src="{{ u.gravatar(size=20) }}" > </th>
                 <td> {{ u.name }}  </td>
@@ -44,6 +45,7 @@
                     {% endif %}
                 {% endif %}
             </tr>
+            { % endif % }
         {% endfor %}
         </tbody>
     </table>
