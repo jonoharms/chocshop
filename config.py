@@ -21,6 +21,7 @@ class Config:
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
     SSL_REDIRECT = False
     WTF_CSRF_CHECK_DEFAULT = False
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_ECHO = True
     
     @staticmethod
