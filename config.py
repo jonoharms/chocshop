@@ -20,7 +20,7 @@ class Config:
     CHOCSHOP_USERS_PER_PAGE = 30
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=5)
     SSL_REDIRECT = False
-    
+    WTF_CSRF_CHECK_DEFAULT = False
     SQLALCHEMY_ECHO = True
     
     @staticmethod
