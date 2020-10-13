@@ -88,7 +88,7 @@ class AddNewProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(0,64)])
     description = StringField('Description', validators=[Length(0,128)], default=None)
     barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
-    current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
+    current_price = DecimalField('Current Price', places=2, validators=[DataRequired()])
     url = StringField('Icon URL', validators=[Length(0,128)])
     submit = SubmitField('Submit')
 
@@ -105,7 +105,7 @@ class EditProductForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(0,64)])
     description = StringField('Description', validators=[Length(0,128)], default=None)
     barcode = StringField('Barcode', validators=[DataRequired(), Length(0,64)])
-    current_price = DecimalField('Current Price', places=2, validators=[DataRequired(), NumberRange(min=0)])
+    current_price = DecimalField('Current Price', places=2, validators=[DataRequired()])
     url = StringField('Icon URL', validators=[Length(0,128)])
     submit = SubmitField('Submit')
 
