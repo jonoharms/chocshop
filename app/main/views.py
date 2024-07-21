@@ -30,7 +30,7 @@ def index():
     #user paginination
     page = request.args.get('page', 1, type=int)
     pagination = User.query.filter(User.username != 'admin').order_by(User.balance).paginate(
-        page,
+        page=page,
         per_page=current_app.config['CHOCSHOP_USERS_PER_PAGE'],
         error_out=False)
     users = pagination.items
@@ -46,7 +46,7 @@ def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
     pagination = user.purchases.order_by(Purchase.timestamp.desc()).paginate(
-        page,
+        page=page,
         per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
         error_out=False)
     purchases = pagination.items
@@ -149,7 +149,7 @@ def product_list():
  #   products = Product.query.order_by(Product.name).all()
     page = request.args.get('page', 1, type=int)
     pagination = Product.query.order_by(Product.name).paginate(
-        page,
+        page=page,
         per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
         error_out=False)
     products = pagination.items
@@ -205,7 +205,7 @@ def buy_product(id):
 def user_list():
     page = request.args.get('page', 1, type=int)
     pagination = User.query.order_by(User.name).paginate(
-        page,
+        page=page,
         per_page=current_app.config['CHOCSHOP_USERS_PER_PAGE'],
         error_out=False)
     users = pagination.items
@@ -217,7 +217,7 @@ def user_list():
 def purchase_list():
     page = request.args.get('page', 1, type=int)
     pagination = Purchase.query.order_by(Purchase.timestamp.desc()).paginate(
-        page,
+        page=page,
         per_page=current_app.config['CHOCSHOP_PURCHASES_PER_PAGE'],
         error_out=False)
     purchases = pagination.items

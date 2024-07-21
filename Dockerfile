@@ -1,4 +1,4 @@
-FROM python:3.7.7-buster
+FROM python:3.12-bookworm
 
 ENV FLASK_APP chocshop.py
 ENV FLASK_CONFIG docker
